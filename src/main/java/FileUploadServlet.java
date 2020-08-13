@@ -23,31 +23,29 @@ import java.util.List;
 public class FileUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         System.out.println("文件上传了");
-
         //1.先判断上传的数据是否多段数据（只是多段的数据，才是文件上传）
-        if (ServletFileUpload.isMultipartContent(req)){
-           //创建fileItemFactory工厂实现类
-            FileItemFactory fileItemFactory =new DiskFileItemFactory();
+        if (ServletFileUpload.isMultipartContent(req)) {
+            //创建fileItemFactory工厂实现类
+            FileItemFactory fileItemFactory = new DiskFileItemFactory();
             //创建用于解析上传数据工具类servletFileUpload类
-            ServletFileUpload servletFileUpload =new ServletFileUpload(fileItemFactory);
+            ServletFileUpload servletFileUpload = new ServletFileUpload(fileItemFactory);
             //解析上传的数据，得到每一个表单项
             try {
                 List<FileItem> list = servletFileUpload.parseRequest(req);
                 //循环判断上传的表单项是文件，还是普通类型
                 for (FileItem fileItem : list) {
 
-                    if (fileItem.isFormField()){
+                    if (fileItem.isFormField()) {
                         //普通表单项
                         //获取普通表单项的名称
-                        System.out.println("普通表单项name属性："+fileItem.getFieldName());
-                        System.out.println("普通表单项的value："+fileItem.getString("utf-8"));
-                    }else{
+                        System.out.println("普通表单项name属性：" + fileItem.getFieldName());
+                        System.out.println("普通表单项的value：" + fileItem.getString("utf-8"));
+                    } else {
                         //上传的文件
-                        System.out.println("普通表单项name属性："+fileItem.getFieldName());
-                        System.out.println("上传的文件名："+fileItem.getName());
-                         fileItem.write(new File("d:\\"+fileItem.getName()));
+                        System.out.println("普通表单项name属性：" + fileItem.getFieldName());
+                        System.out.println("上传的文件名：" + fileItem.getName());
+                        fileItem.write(new File("d:\\" + fileItem.getName()));
                     }
                 }
             } catch (FileUploadException e) {
